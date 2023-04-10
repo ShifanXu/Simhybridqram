@@ -1,0 +1,1 @@
+State Fidelity: F = 0.411411State Fidelity: F = 0.494162State Fidelity: F = 0.830936State Fidelity: F = 0.916544State Fidelity: F = 0.995827State Fidelity: F = 1.049791State Fidelity: F = 1.052490State Fidelity: F = 1.052624
