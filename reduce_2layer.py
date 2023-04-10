@@ -204,11 +204,11 @@ for y in a:
     shrink_probabilities(noise_dict, y)
     Reduced_Noise_model=NoiseModel.from_dict(noise_dict)
     sim_noise = AerSimulator(noise_model=Reduced_Noise_model)
-    for x in range(300):
+    for x in range(30):
         # Grab results from the job
         result = sim_noise.run(compiled_circuit).result()
         rho_fit= result.get_statevector(compiled_circuit)
         F_bell += qi.state_fidelity(rho_fit, target_state)
         #print(qi.state_fidelity(rho_fit, target_state))
-    F_bell = F_bell / 300
-    print('State Fidelity: F = {:.6f}'.format(F_bell))
+    F_bell = F_bell / 31
+    f.write('State Fidelity: F = {:.6f}'.format(F_bell))
