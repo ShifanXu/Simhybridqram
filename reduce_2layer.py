@@ -12,84 +12,96 @@ from qiskit_aer import AerSimulator
 import qiskit_aer.noise as noise
 from qiskit.providers.aer.noise import NoiseModel
 
-
 bus = QuantumRegister(1, name='bus')
-ad2 = QuantumRegister(3, name='ad2')
-qram = QuantumRegister(16, name='qram')
+ad2 = QuantumRegister(2, name='ad2')
+qram = QuantumRegister(11, name='qram')
 qc = QuantumCircuit(bus,ad2,qram)
 #load address
 qc.h(ad2[0])
 qc.h(ad2[1])
-qc.cnot(ad2[1],ad2[2])
-qc.x(ad2[1])
+
 qc.swap(ad2[0],qram[0])
+
 qc.x(qram[0])
 qc.cswap(qram[0],ad2[1],qram[1])
-qc.cswap(qram[0],ad2[2],qram[2])
 qc.x(qram[0])
-qc.cswap(qram[0],ad2[1],qram[3])
-qc.cswap(qram[0],ad2[2],qram[4])
+qc.cswap(qram[0],ad2[1],qram[2])
 
 qc.barrier()
 
 ### retieve data
-
+qc.x(qram[1])
+qc.cnot(qram[1],qram[3])
+qc.x(qram[1])
 qc.cnot(qram[1],qram[5])
+qc.x(qram[2])
 qc.cnot(qram[2],qram[7])
-qc.cnot(qram[3],qram[9])
-qc.cnot(qram[4],qram[11])
+qc.x(qram[2])
+qc.cnot(qram[2],qram[9])
  
-
-
+qc.barrier()
+qc.x(qram[0])
+qc.cswap(qram[0],ad2[1],qram[1])
+qc.x(qram[0])
+qc.cswap(qram[0],ad2[1],qram[2])
+qc.swap(ad2[0],qram[0])
 qc.barrier()
 
+qc.swap(qram[3],qram[4])
 qc.swap(qram[5],qram[6])
-qc.swap(qram[7],qram[8])
 
 qc.barrier()
 
-qc.cnot(qram[6],qram[13])
-qc.cnot(qram[8],qram[13])
-qc.cnot(qram[10],qram[14])
-qc.cnot(qram[12],qram[14])
-qc.cnot(qram[13],qram[15])
-qc.cnot(qram[14],qram[15])
-qc.cnot(qram[15],bus[0])
+qc.cnot(qram[4],qram[1])
+qc.cnot(qram[6],qram[1])
+qc.cnot(qram[8],qram[2])
+qc.cnot(qram[10],qram[2])
+qc.cnot(qram[2],qram[0])
+qc.cnot(qram[3],qram[0])
+qc.cnot(qram[0],bus[0])
 qc.barrier()
 
 # uncomputing
-qc.cnot(qram[13],qram[15])
-qc.cnot(qram[14],qram[15])
-qc.cnot(qram[6],qram[13])
-qc.cnot(qram[8],qram[13])
-qc.cnot(qram[10],qram[14])
-qc.cnot(qram[12],qram[14])
+qc.cnot(qram[2],qram[0])
+qc.cnot(qram[3],qram[0])
+qc.cnot(qram[4],qram[1])
+qc.cnot(qram[6],qram[1])
+qc.cnot(qram[8],qram[2])
+qc.cnot(qram[10],qram[2])
 
 
 #Unload address
 qc.barrier()
+qc.swap(qram[3],qram[4])
 qc.swap(qram[5],qram[6])
-qc.swap(qram[7],qram[8])
+
+qc.barrier()
+qc.x(qram[0])
+qc.cswap(qram[0],ad2[1],qram[1])
+qc.x(qram[0])
+qc.cswap(qram[0],ad2[1],qram[2])
+qc.swap(ad2[0],qram[0])
 qc.barrier()
 
+qc.x(qram[1])
+qc.cnot(qram[1],qram[3])
+qc.x(qram[1])
 qc.cnot(qram[1],qram[5])
+qc.x(qram[2])
 qc.cnot(qram[2],qram[7])
-qc.cnot(qram[3],qram[9])
-qc.cnot(qram[4],qram[11])
- 
+qc.x(qram[2])
+qc.cnot(qram[2],qram[9])
 
 
 qc.barrier()
+
 
 qc.x(qram[0])
 qc.cswap(qram[0],ad2[1],qram[1])
-qc.cswap(qram[0],ad2[2],qram[2])
 qc.x(qram[0])
-qc.cswap(qram[0],ad2[1],qram[3])
-qc.cswap(qram[0],ad2[2],qram[4])
+qc.cswap(qram[0],ad2[1],qram[2])
+
 qc.swap(ad2[0],qram[0])
-qc.x(ad2[1])
-qc.cnot(ad2[1],ad2[2])
 
 backend_run = FakeAuckland()
 #backend_run = FakePerth()
