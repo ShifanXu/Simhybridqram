@@ -259,12 +259,12 @@ for y in a:
     shrink_probabilities(noise_dict, y)
     Reduced_Noise_model=NoiseModel.from_dict(noise_dict)
     sim_noise = AerSimulator(noise_model=Reduced_Noise_model)
-    for x in range(100):
+    for x in range(80):
     # Grab results from the job
         result = sim_noise.run(compiled_circuit).result()
         rho_fit= result.get_statevector(compiled_circuit)
         F_bell += qi.state_fidelity(rho_fit, target_state)
-    F_bell = F_bell / 101
-    f = open("myfile.txt", "a")
+    F_bell = F_bell / 81
+    f = open("myfile2.txt", "a")
     f.write('State Fidelity: F = {:.6f}'.format(F_bell))
     f.close()
