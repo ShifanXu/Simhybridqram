@@ -13,97 +13,95 @@ import qiskit_aer.noise as noise
 from qiskit.providers.aer.noise import NoiseModel
 
 bus = QuantumRegister(1, name='bus')
-ad2 = QuantumRegister(2, name='ad2')
-qram = QuantumRegister(11, name='qram')
+ad2 = QuantumRegister(3, name='ad2')
+qram = QuantumRegister(12, name='qram')
 qc = QuantumCircuit(bus,ad2,qram)
 #load address
 qc.h(ad2[0])
 qc.h(ad2[1])
-
+qc.cnot(ad2[1],ad2[2])
+qc.x(ad2[1])
 qc.swap(ad2[0],qram[0])
-
 qc.x(qram[0])
 qc.cswap(qram[0],ad2[1],qram[1])
+qc.cswap(qram[0],ad2[2],qram[2])
 qc.x(qram[0])
-qc.cswap(qram[0],ad2[1],qram[2])
+qc.cswap(qram[0],ad2[1],qram[3])
+qc.cswap(qram[0],ad2[2],qram[4])
 
 qc.barrier()
-
-### retieve data
-qc.x(qram[1])
-qc.cnot(qram[1],qram[3])
-qc.x(qram[1])
 qc.cnot(qram[1],qram[5])
-qc.x(qram[2])
 qc.cnot(qram[2],qram[7])
-qc.x(qram[2])
-qc.cnot(qram[2],qram[9])
- 
+qc.cnot(qram[3],qram[9])
+qc.cnot(qram[4],qram[11])
 qc.barrier()
+
 qc.x(qram[0])
 qc.cswap(qram[0],ad2[1],qram[1])
+qc.cswap(qram[0],ad2[2],qram[2])
 qc.x(qram[0])
-qc.cswap(qram[0],ad2[1],qram[2])
+qc.cswap(qram[0],ad2[1],qram[3])
+qc.cswap(qram[0],ad2[2],qram[4])
+
 qc.swap(ad2[0],qram[0])
 qc.barrier()
+### retieve data
 
-qc.swap(qram[3],qram[4])
+
 qc.swap(qram[5],qram[6])
+qc.swap(qram[7],qram[8])
 
 qc.barrier()
 
-qc.cnot(qram[4],qram[1])
-qc.cnot(qram[6],qram[1])
-qc.cnot(qram[8],qram[2])
-qc.cnot(qram[10],qram[2])
-qc.cnot(qram[2],qram[0])
-qc.cnot(qram[3],qram[0])
-qc.cnot(qram[0],bus[0])
+qc.cnot(qram[6],qram[4])
+qc.cnot(qram[8],qram[4])
+qc.cnot(qram[10],qram[3])
+qc.cnot(qram[3],qram[2])
+qc.cnot(qram[4],qram[2])
+qc.cnot(qram[2],bus[0])
 qc.barrier()
 
 # uncomputing
-qc.cnot(qram[2],qram[0])
-qc.cnot(qram[3],qram[0])
-qc.cnot(qram[4],qram[1])
-qc.cnot(qram[6],qram[1])
-qc.cnot(qram[8],qram[2])
-qc.cnot(qram[10],qram[2])
+qc.cnot(qram[3],qram[2])
+qc.cnot(qram[4],qram[2])
+qc.cnot(qram[6],qram[4])
+qc.cnot(qram[8],qram[4])
+qc.cnot(qram[10],qram[3])
 
 
 #Unload address
 qc.barrier()
-qc.swap(qram[3],qram[4])
 qc.swap(qram[5],qram[6])
+qc.swap(qram[7],qram[8])
 
 qc.barrier()
+qc.swap(ad2[0],qram[0])
 qc.x(qram[0])
 qc.cswap(qram[0],ad2[1],qram[1])
+qc.cswap(qram[0],ad2[2],qram[2])
 qc.x(qram[0])
-qc.cswap(qram[0],ad2[1],qram[2])
-qc.swap(ad2[0],qram[0])
-qc.barrier()
+qc.cswap(qram[0],ad2[1],qram[3])
+qc.cswap(qram[0],ad2[2],qram[4])
 
-qc.x(qram[1])
-qc.cnot(qram[1],qram[3])
-qc.x(qram[1])
+qc.barrier()
 qc.cnot(qram[1],qram[5])
-qc.x(qram[2])
 qc.cnot(qram[2],qram[7])
-qc.x(qram[2])
-qc.cnot(qram[2],qram[9])
-
+qc.cnot(qram[3],qram[9])
+qc.cnot(qram[4],qram[11])    
 
 qc.barrier()
 
-
 qc.x(qram[0])
 qc.cswap(qram[0],ad2[1],qram[1])
+qc.cswap(qram[0],ad2[2],qram[2])
 qc.x(qram[0])
-qc.cswap(qram[0],ad2[1],qram[2])
-
+qc.cswap(qram[0],ad2[1],qram[3])
+qc.cswap(qram[0],ad2[2],qram[4])
 qc.swap(ad2[0],qram[0])
+qc.x(ad2[1])
+qc.cnot(ad2[1],ad2[2])
 
-backend_run = FakeAuckland()
+backend_run = FakeGuadalupeV2()
 #backend_run = FakePerth()
 noise_model = NoiseModel.from_backend(backend_run)
 noise_dict = noise_model.to_dict()
@@ -201,14 +199,16 @@ def shrink_probabilities(noise_dict, ratio, verbose=False):
 
 F_bell = 0
 a  = [1,0.5,0.2,1e-1,0.05,1e-2,1e-3,1e-4]
-backend_run = AerSimulator.from_backend(FakeAuckland())
+backend_run = AerSimulator.from_backend(FakeGuadalupeV2())
 compiled_circuit = transpile(qc, backend_run)
 compiled_circuit.save_statevector()
 simulator = Aer.get_backend('aer_simulator')
 resulti = simulator.run(compiled_circuit).result()
 target_state= resulti.get_statevector(compiled_circuit)
-backend_run = FakeAuckland()
+backend_run = FakeGuadalupeV2()
 f = open("myfile.txt", "a")
+f.write('a')
+f.close()
 for y in a:
     noise_model = NoiseModel.from_backend(backend_run)
     noise_dict = noise_model.to_dict()
@@ -216,11 +216,16 @@ for y in a:
     shrink_probabilities(noise_dict, y)
     Reduced_Noise_model=NoiseModel.from_dict(noise_dict)
     sim_noise = AerSimulator(noise_model=Reduced_Noise_model)
-    for x in range(30):
-        # Grab results from the job
-        result = sim_noise.run(compiled_circuit).result()
-        rho_fit= result.get_statevector(compiled_circuit)
-        F_bell += qi.state_fidelity(rho_fit, target_state)
-        #print(qi.state_fidelity(rho_fit, target_state))
-    F_bell = F_bell / 31
+    f = open("myfile.txt", "a")
+    f.write('b')
+    f.close()
+    # Grab results from the job
+    result = sim_noise.run(compiled_circuit).result()
+    f = open("myfile.txt", "a")
+    f.write('c')
+    f.close()
+    rho_fit= result.get_statevector(compiled_circuit)
+    F_bell += qi.state_fidelity(rho_fit, target_state)
+    f = open("myfile.txt", "a")
     f.write('State Fidelity: F = {:.6f}'.format(F_bell))
+    f.close()
