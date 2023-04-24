@@ -1,1 +1,8 @@
-State Fidelity: F = 0.411411State Fidelity: F = 0.494162State Fidelity: F = 0.830936State Fidelity: F = 0.916544State Fidelity: F = 0.995827State Fidelity: F = 1.049791State Fidelity: F = 1.052490State Fidelity: F = 1.052624
+State Fidelity: F = 0.411411State Fidelity: F = 0.494162State Fidelity: F = 0.830936State Fidelity: F = 0.916544State Fidelity: F = 0.995827State Fidelity: F = 1.049791State Fidelity: F = 1.052490State Fidelity: F = 1.052624State Fidelity: F = 0.476301State Fidelity: F = 0.690831State Fidelity: F = 0.890035State Fidelity: F = 0.911593State Fidelity: F = 0.912466State Fidelity: F = 0.948213State Fidelity: F = 0.997534State Fidelity: F = 0.999883State Fidelity: F = 0.262794State Fidelity: F = 0.467587State Fidelity: F = 0.862386State Fidelity: F = 0.899999State Fidelity: F = 0.913750State Fidelity: F = 1.000000State Fidelity: F = 1.000000State Fidelity: F = 1.000000State Fidelity: F = 0.438053State Fidelity: F = 0.472514State Fidelity: F = 0.712396State Fidelity: F = 0.440395State Fidelity: F = 0.756235State Fidelity: F = 0.422938State Fidelity: F = 0.918717State Fidelity: F = 0.244642State Fidelity: F = 1.000000State Fidelity: F = 0.000000State Fidelity: F = 1.000000State Fidelity: F = 0.000000State Fidelity: F = 1.000000State Fidelity: F = 0.000000State Fidelity: F = 1.000000State Fidelity: F = 0.000000State Fidelity: F = 0.224954State Fidelity: F = 0.467598Std: S = 0.482702
+State Fidelity: F = 0.518698Std: S = 0.484557
+State Fidelity: F = 0.956261Std: S = 0.190618
+State Fidelity: F = 0.873871Std: S = 0.303403
+State Fidelity: F = 0.950000Std: S = 0.217944
+State Fidelity: F = 1.000000Std: S = 0.000000
+State Fidelity: F = 1.000000Std: S = 0.000000
+State Fidelity: F = 1.000000Std: S = 0.000000
