@@ -243,6 +243,8 @@ def shrink_probabilities(noise_dict, ratio, verbose=False):
 
 
 F_bell = []
+avea=[]
+ave=[]
 a  = [1,0.5,0.2,1e-1,0.05,1e-2,1e-3,1e-4]
 backend_run = AerSimulator.from_backend(FakeGuadalupeV2())
 compiled_circuit = transpile(qc, backend_run)
@@ -253,21 +255,25 @@ target_state= resulti.get_statevector(compiled_circuit)
 backend_run = FakeGuadalupeV2()
 f = open("myfile2.txt", "a")
 for y in a:
-    F_bell = []
     noise_model = NoiseModel.from_backend(backend_run)
     noise_dict = noise_model.to_dict()
     # print(noise_dict)
     shrink_probabilities(noise_dict, y)
     Reduced_Noise_model=NoiseModel.from_dict(noise_dict)
     sim_noise = AerSimulator(noise_model=Reduced_Noise_model)
-    for x in range(200):
-    # Grab results from the job
-        result = sim_noise.run(compiled_circuit).result()
-        rho_fit= result.get_statevector(compiled_circuit)
-        F_bell.append(qi.state_fidelity(rho_fit, target_state)) 
-    ave= np.average(F_bell)
-    std= np.std(F_bell)
+    for p in range(5):
+        F_bell = []
+        for x in range(40):
+         # Grab results from the job
+            result = sim_noise.run(compiled_circuit).result()
+            rho_fit= result.get_statevector(compiled_circuit)
+            F_bell.append(qi.state_fidelity(rho_fit, target_state)) 
+            avea.append = np.average(F_bell)
+        ave.append
+    
     f.write('State Fidelity: F = {:.6f}'.format(ave))
     f.write('Std: S = {:.6f}'.format(std))
     f.write('\n')
+    ave= np.average(F_bell)
+    std= np.std(F_bell)
 f.close()
